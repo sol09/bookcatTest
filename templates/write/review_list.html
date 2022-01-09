@@ -1,0 +1,10 @@
+{% if question_list %}
+    <ul>
+    {% for review in review_list %}
+        <li><a href="/write/{{ review.reviewId }}/">{{ review.reviewTxt }}</a></li>
+        <hr>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>서평이 없습니다.</p>
+{% endif %}
