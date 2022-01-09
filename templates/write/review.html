@@ -1,0 +1,10 @@
+{% if rv %}
+    <h4>책 ISBN: {{ rv.bookId }}</h4>
+    <h4>작성자: {{ rv.userId }}</h4>
+    <h4>서평Id: {{ rv.reviewId }}</h4>
+    <div>
+        {{ rv.reviewTxt }}
+    </div>
+{% else %}
+    <p>서평이 없습니다.</p>
+{% endif %}
