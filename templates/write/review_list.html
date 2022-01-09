@@ -1,7 +1,7 @@
 {% if review_list %}
     <ul>
     {% for review in review_list %}
-        <li><a href="/write/{{ review.reviewId }}/">{{ review.reviewTxt }}</a></li>
+        <li><a href="/write/{{ review.reviewId }}/">{{ review.reviewTxt }} / 서평Id: {{ review.reviewId }}</a></li>
         <hr>
     {% endfor %}
     </ul>
