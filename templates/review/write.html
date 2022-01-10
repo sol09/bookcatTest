@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>글쓰기</title>
+</head>
+<body>
+    <form action="{% url 'write' %}" method="POST">
+        {% csrf_token %}
+        <div style="margin:50px">
+        uid: {{ user.userName }}<br>
+        bookId: <input type="text" name="bid"/><br>
+        reviewId: <input type="text" name="rid"/><br>
+        서평 내용 <br>
+        <textarea name="review", rows="10", cols="40"></textarea><br>
+        <button type="submit">등록</button>
+        </div>
+    </form>
+</body>
+</html>

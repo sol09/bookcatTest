@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>서평 목록</title>
+</head>
+<body>
+    <a href="/review/write/" style="margin:50px">글쓰기</a>
+    <br><br>
+    {% if review_list %}
+    <ol>
+    {% for review in review_list %}
+            <li><a href="/review/{{ review.reviewId }}/">
+                <div style="margin:40px 30px 40px 0px; padding:30px; background-color:#ffb6c1">
+                제목 - Id: {{ review.reviewId }} <br>
+                책 제목 - ISBN: {{ review.bookId }} <br>
+                {{ review.reviewTxt }}
+                </div>
+            </a></li>
+    {% endfor %}
+    </ol>
+    {% else %}
+        <p>서평이 없습니다.</p>
+    {% endif %}
+
+</body>
+</html>
