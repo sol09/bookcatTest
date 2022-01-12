@@ -7,15 +7,9 @@ def list(request):
     context = {'review_list': review_list}
     return render(request, 'review/list.html', context)
 
-def review(request):
-    """선택한 리뷰 출력"""
-    rv = Review.objects.get(Review.reviewId)
-    context = {'rv': rv}
-    return render(request, 'review/detail.html', context)
-
 def write(request):
     """글쓰기"""
-    user = User.objects.get(userId='002')
+    user = User.objects.get(userId=2)
     context = {'user':user}
     if request.method == 'POST':
         Review.objects.create(
@@ -26,3 +20,10 @@ def write(request):
         )
         return redirect('list')
     return render(request, 'review/write.html', context)
+
+def detail(request, reviewId):
+    """선택한 리뷰 출력"""
+    review = Review.objects.get(reviewId=reviewId)
+    user = User.objects.get(userId=review.userId)
+    context = {'review': review, 'user': user}
+    return render(request, 'review/detail.html', context)

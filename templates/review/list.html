@@ -10,13 +10,13 @@
     {% if review_list %}
     <ol>
     {% for review in review_list %}
-            <li><a href="/review/{{ review.reviewId }}/">
-                <div style="margin:40px 30px 40px 0px; padding:30px; background-color:#ffb6c1">
+        <li><a href="/review/detail/{{ review.reviewId }}/">
+            <div style="margin:40px 30px 40px 0px; padding:30px; background-color:#ffb6c1">
                 제목 - Id: {{ review.reviewId }} <br>
                 책 제목 - ISBN: {{ review.bookId }} <br>
                 {{ review.reviewTxt }}
-                </div>
-            </a></li>
+            </div>
+        </a></li>
     {% endfor %}
     </ol>
     {% else %}
