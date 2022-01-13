@@ -1,5 +1,15 @@
 from django.shortcuts import render, redirect
-from .models import Review, User
+from .serializers import *
+from rest_framework import viewsets
+#from .models import Review, User   # serializers를 통해 DB를 받았기 때문에 models import 불필요
+
+class ReviewView(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
+
+class UserView(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
 
 def list(request):
     """리뷰 목록 출력"""
