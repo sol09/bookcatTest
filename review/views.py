@@ -11,6 +11,9 @@ class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+def index(request):
+    return render(request, 'index.html')
+
 def list(request):
     """리뷰 목록 출력"""
     review_list = Review.objects.order_by('-reviewId')
@@ -24,9 +27,11 @@ def write(request):
     if request.method == 'POST':
         Review.objects.create(
             userId = user,
-            bookId = request.POST['bid'],
-            reviewId = request.POST['rid'],
-            reviewTxt = request.POST['review']
+            #bookId = request.POST['bid'],
+            #reviewId = request.POST['rid'],
+            bookId = '00000001',
+            reviewId = 10,
+            reviewTxt = request.POST['rtext']
         )
         return redirect('list')
     return render(request, 'review/write.html', context)

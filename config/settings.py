@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',    # 리액트: corsheaders 최상단에 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,10 +58,13 @@ MIDDLEWARE = [
     #'corsheaders.middleware.CorsMiddleware'
 ]
 
-# corsheaders 위해서 추가함
+# 리액트 : corsheaders 위해서 추가함
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ORIGIN_WHITELIST = [
-    # 리액트
-    'http://localhost:3000'
+    'http://localhost:3000',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -69,8 +73,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # 기존 리액트 사용 X
-        'DIRS': [BASE_DIR / 'templates'],
-        #'DIRS': [BASE_DIR / 'frontend', 'build' ],  # 리액트 배포파일을 templates 대신 사용
+        #'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [ os.path.join(BASE_DIR, 'frontend', 'build'), ],  # 리액트 배포파일을 templates 대신 사용
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,12 +87,12 @@ TEMPLATES = [
     },
 ]
 
-'''
+# 리액트 사용 : static files 경로 설정해줌
 STATICFILES_DIRS = [
-    # 리액트 사용 : static files 경로 설정해줌
-    os.path.join(BASE_DIR, 'frontend/build/static')
+    BASE_DIR / 'frontend/build/static',
+    #BASE_DIR / 'frontend/build',
 ]
-'''
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

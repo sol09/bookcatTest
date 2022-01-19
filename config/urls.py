@@ -16,19 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# from . import views
+#from . import views
 
 from review import views
 from rest_framework import routers
 
+from django.views.generic import TemplateView   # TemplateView 상속
+
+'''
 # DB 보기
 router = routers.DefaultRouter()
 router.register('review', views.ReviewView, 'Review')
 router.register('user', views.UserView, 'User')
+'''
 
 urlpatterns = [
-    #path("", views.ReactAppView.as_view()),    # 이건 config/views
+    #path('', views.ReactAppView.as_view),    # 이건 config/views
+    #path('', TemplateView.as_view(template_name='index.html')),    # 이건 review/views
+    path('', views.index),
+    # path('write/', views.write, name='write'),    # review/views/write
+
     path('admin/', admin.site.urls),
     path('review/', include('review.urls')),
-    path('api/', include(router.urls))
+    #path('api/', include(router.urls))
 ]
