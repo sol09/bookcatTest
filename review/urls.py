@@ -15,5 +15,7 @@ urlpatterns = [
     path('', views.list, name='list'),
     path('write/', views.write, name='write'),
     path('detail/<int:reviewId>/', views.detail, name='detail'),
+
+    # DRF 사용하는 url
     path('api/', include(router.urls))
 ]

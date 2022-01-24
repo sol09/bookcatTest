@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
+#from .models import Review, User   # serializers를 통해 DB를 받았기 때문에 models import 불필요
+
 from .serializers import *
 from rest_framework import viewsets
-#from .models import Review, User   # serializers를 통해 DB를 받았기 때문에 models import 불필요
+
+from django.http import JsonResponse
+import json
 
 class ReviewView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
@@ -19,10 +23,13 @@ def list(request):
     review_list = Review.objects.order_by('-reviewId')
     context = {'review_list': review_list}
     return render(request, 'review/list.html', context)
+    #reviews = ReviewView.queryset
+    #review_list = reviews.__dict__
+    #return JsonResponse(review_list, safe=False)
 
 def write(request):
     """글쓰기"""
-    user = User.objects.get(userId=2)
+    user = User.objects.get(userId=1)
     context = {'user':user}
     if request.method == 'POST':
         Review.objects.create(

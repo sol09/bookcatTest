@@ -33,8 +33,8 @@ router.register('user', views.UserView, 'User')
 urlpatterns = [
     #path('', views.ReactAppView.as_view),    # 이건 config/views
     #path('', TemplateView.as_view(template_name='index.html')),    # 이건 review/views
-    path('', views.index),
-    # path('write/', views.write, name='write'),    # review/views/write
+    # path('', views.index),    # 이건 review/views
+    #path('write/', views.write, name='write'),    # review/views/write
 
     path('admin/', admin.site.urls),
     path('review/', include('review.urls')),

@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     # 리액트 연동
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -67,14 +67,22 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
 
+# 리액트 : webpack
+WEBPACK_LOADER = {
+    'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        }
+}
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # 기존 리액트 사용 X
-        #'DIRS': [BASE_DIR / 'templates'],
-        'DIRS': [ os.path.join(BASE_DIR, 'frontend', 'build'), ],  # 리액트 배포파일을 templates 대신 사용
+        'DIRS': [BASE_DIR / 'templates'],
+        #'DIRS': [ os.path.join(BASE_DIR, 'frontend', 'build'), ],  # 리액트 배포파일을 templates 대신 사용
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,13 +94,6 @@ TEMPLATES = [
         },
     },
 ]
-
-# 리액트 사용 : static files 경로 설정해줌
-STATICFILES_DIRS = [
-    BASE_DIR / 'frontend/build/static',
-    #BASE_DIR / 'frontend/build',
-]
-
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -145,6 +146,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 리액트 사용 : static files 경로 설정해줌
+STATICFILES_DIRS = [
+    #BASE_DIR / 'frontend/build/static',
+    #BASE_DIR / 'frontend/build',
+    os.path.join(BASE_DIR, 'frontend', "build", "static"),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
