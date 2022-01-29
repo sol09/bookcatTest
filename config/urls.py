@@ -38,5 +38,6 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('review/', include('review.urls')),
+    path('user/', include('user.urls')),
     #path('api/', include(router.urls))
 ]

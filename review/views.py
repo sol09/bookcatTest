@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect
 #from .models import Review, User   # serializers를 통해 DB를 받았기 때문에 models import 불필요
-
+from .models import Review
 from .serializers import *
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from user.models import User
+
 from django.http import JsonResponse
 import json
+
+import logging
 
 #class ReviewView(viewsets.ModelViewSet):
 class ReviewView(APIView):
@@ -15,7 +19,18 @@ class ReviewView(APIView):
     serializer_class = ReviewSerializer
 
     def post(self, request):
-        review_serializer = ReviewSerializer(data=request.data)
+        data = request.data
+        rId = Review.objects.count() + 1
+        nReview: Review = Review (
+            reviewId = rId,
+            userId = 1,
+            bookId = data['id'],
+            reviewTxt = data['text']
+        )
+        logging.debug("Review object init")
+
+        #review_serializer = ReviewSerializer(data=request.data)
+        review_serializer = ReviewSerializer(nReview)
         if review_serializer.is_valid():
             review_serializer.save()
             return Response(review_serializer.data, status=status.HTTP_201_CREATED)
@@ -28,7 +43,7 @@ class ReviewView(APIView):
             return Response(review_qr_serializer.data, status=status.HTTP_200_OK)
         else:
             reviewId = kwargs.get('reviewId')
-            review_serializer = ReviewSerializer(Review.objects.get(id=reviewId))
+            review_serializer = ReviewSerializer(Review.objects.get(reviewId=reviewId))
             return Response(review_serializer.data, status=status.HTTP_200_OK)
 
 class UserView(viewsets.ModelViewSet):
@@ -40,7 +55,8 @@ def index(request):
 
 def list(request):
     """리뷰 목록 출력"""
-    review_list = Review.objects.order_by('-reviewId')
+    review_list = Review.objects.order_by('reviewId')
+    #review_list = Review.objects.all()
     context = {'review_list': review_list}
     return render(request, 'review/list.html', context)
     #reviews = ReviewView.queryset
@@ -66,6 +82,7 @@ def write(request):
 def detail(request, reviewId):
     """선택한 리뷰 출력"""
     review = Review.objects.get(reviewId=reviewId)
-    user = User.objects.get(userId=review.userId)
+    #user = User.objects.get(userId=review.userId)
+    user = User.objects.get(id=1)
     context = {'review': review, 'user': user}
     return render(request, 'review/detail.html', context)
