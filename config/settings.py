@@ -66,6 +66,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    #'https://dapi.kakao.com',
 ]
 
 # 리액트 : webpack

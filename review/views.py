@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 #from .models import Review, User   # serializers를 통해 DB를 받았기 때문에 models import 불필요
-from .models import Review
+#from .models import Review
 from .serializers import *
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
@@ -11,32 +11,34 @@ from user.models import User
 from django.http import JsonResponse
 import json
 
-import logging
-
-#class ReviewView(viewsets.ModelViewSet):
 class ReviewView(APIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
     def post(self, request):
+        #data = json.loads(request.body)
         data = request.data
         rId = Review.objects.count() + 1
-        nReview: Review = Review (
+        r : Review = Review (
             reviewId = rId,
-            userId = 1,
-            bookId = data['id'],
-            reviewTxt = data['text']
+            userId = User.objects.get(id=1),
+            bookId = data.get('bid'),
+            reviewTxt = data.get('text'),
         )
-        logging.debug("Review object init")
-
+        r.save()
+        #serializer 는 사용하지 않기로 함!
+        '''
         #review_serializer = ReviewSerializer(data=request.data)
-        review_serializer = ReviewSerializer(nReview)
+        #review_serializer = ReviewSerializer(nReview)
         if review_serializer.is_valid():
             review_serializer.save()
             return Response(review_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(review_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        '''
+        return Response({'message':'서평 등록이 완료되었습니다.'}, status=status.HTTP_200_OK)
 
+    # TODO : 서평공간에서 전체 리스트 보기
     def get(self, request, **kwargs):
         if kwargs.get('reviewId') is None:
             review_qr_serializer = ReviewSerializer(Review.objects.all(), many=True)
