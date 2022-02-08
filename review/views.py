@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 #from .models import Review, User   # serializers를 통해 DB를 받았기 때문에 models import 불필요
 #from .models import Review
+from datetime import date
 from .serializers import *
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
@@ -18,12 +19,13 @@ class ReviewView(APIView):
     def post(self, request):
         #data = json.loads(request.body)
         data = request.data
-        rId = Review.objects.count() + 1
         r : Review = Review (
-            reviewId = rId,
-            userId = User.objects.get(id=1),
             bookId = data.get('bid'),
-            reviewTxt = data.get('text'),
+            userId = User.objects.get(id=1),    # 추후에 userId 받아와서 저장
+            reviewTitle = data.get('rtitle'),
+            reviewDate = date.today(),
+            reviewRate = 0,     # 추후에 평점 받아와서 저장
+            reviewTxt = data.get('text')
         )
         r.save()
         #serializer 는 사용하지 않기로 함!

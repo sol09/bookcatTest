@@ -1,0 +1,20 @@
+axios.post("http://127.0.0.1:8000/review/", {
+                //uid : sessionStorage.getItem('uid'),
+                bid : sessionStorage.getItem('id'),
+                text,
+
+                img : data.thumbnail,
+                info : data.contents,
+                btitle,
+                author,
+                rtitle,
+            }).then(function(response) {
+                window.sessionStorage.setItem('id', data.isbn)
+                console.log(response)
+                alert(response.data.message)
+            }).catch(function(error) {
+                console.log(error)
+                alert('문제가 발생했습니다.')
+            }).finally(() => {
+                history.push('/review')
+            })

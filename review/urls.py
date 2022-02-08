@@ -20,6 +20,6 @@ urlpatterns = [
     # DRF 사용하는 url
     path('api/', include(router.urls)),
     path('', views.ReviewView.as_view()),
-    #path('write/', views.ReviewView.as_view()),
+    path('write/', views.ReviewView.as_view()),
     path('<int:reviewId>/', views.ReviewView.as_view()),
 ]

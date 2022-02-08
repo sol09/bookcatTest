@@ -11,9 +11,12 @@ class User(models.Model):
         return self.userId
 '''
 class Review(models.Model):
-    reviewId = models.IntegerField(primary_key=True)
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
+    #reviewId = models.IntegerField(primary_key=True)
     bookId = models.CharField(max_length=30)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE)
+    reviewTitle = models.CharField(max_length=200)
+    reviewDate = models.DateField(auto_now_add=True)
+    reviewRate = models.IntegerField()
     reviewTxt = models.TextField()
 
     def __int__(self):
