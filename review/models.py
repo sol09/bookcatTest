@@ -20,4 +20,4 @@ class Review(models.Model):
     reviewTxt = models.TextField()
 
     def __int__(self):
-        return self.reviewId
+        return self.reviewTitle

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-j3--@!1rhx0j1did#9%!_w66%q5nx06#!6a%b#)(63ba+l7h&)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1','127.0.0.1:3000','127.0.0.1:8000']
 
 
 # Application definition
@@ -66,7 +66,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    #'https://dapi.kakao.com',
 ]
 
 # 리액트 : webpack

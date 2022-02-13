@@ -28,25 +28,35 @@ class CreateView(View):
 
     def get(self, request):
         users = User.objects.values()
-        return JsonResponse({"data" : list(users)}, status = 200)
+        return JsonResponse({"data" : list(users)}, json_dumps_params={'ensure_ascii': False}, status = 200)
 
 class LoginView(View):
     def post(self, request):
         data = json.loads(request.body)
+        # userName = ""
+        # uid = ""
+        # TODO 쿼리셋으로 데이터 보내주기
         User(
-            #userName = data['userName'],
             userEmail = data['userEmail'],
             userPw = data['userPw'],
         )
 
+        if User.objects.filter(userEmail = data['userEmail']).exists() == True:
+            userData = User.objects.filter(userEmail = data['userEmail']).values('id','userName')[0]
+            print(userData.get('userName'))
+
+            userName = userData.get('userName')
+            uid = userData.get('id')
+
         if User.objects.filter(userEmail = data['userEmail'],  userPw = data['userPw']).exists() == True :
-            return JsonResponse({"message": "로그인에 성공하셨습니다."}, status = 200)
+            return JsonResponse({"message": "로그인에 성공하셨습니다.",
+                                 "userEmail": data['userEmail'], "uid": uid, "userName":userName}, status = 200)
         else:
             return JsonResponse({"message" : "아이디나 비밀번호가 일치하지 않습니다."}, status = 401)
 
     def get(self, request):
         user = User.objects.values()
-        return JsonResponse({"list" : list(user)}, status = 200)
+        return JsonResponse({"list" : list(user)}, json_dumps_params={'ensure_ascii': False}, status = 200)
 
 
 '''
