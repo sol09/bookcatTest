@@ -21,7 +21,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('', views.ReviewView.as_view()),
     path('write/', views.ReviewView.as_view()),
-    path('<int:reviewId>/', views.ReviewView.as_view()),
+    path('<int:id>/', views.ReviewView.as_view()),
     path('edit/', views.ReviewView.as_view()),
     path('delete/', views.ReviewView.as_view())
 ]

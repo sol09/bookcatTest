@@ -25,41 +25,37 @@ class ReviewView(APIView):
             userId = User.objects.get(id=data.get('uid')),
             reviewTitle = data.get('rtitle'),
             reviewDate = date.today(),
-            reviewRate = 0,     # 추후에 평점 받아와서 저장
+            reviewRate = data.get('rate'),     # 추후에 평점 받아와서 저장
             reviewTxt = data.get('rtext')
         )
         r.save()
         return Response({'message':'서평 등록이 완료되었습니다.'}, status=status.HTTP_200_OK)
 
     def get(self, request, **kwargs):
-        if kwargs.get('reviewId') is None:
+        if kwargs.get('id') is None:
             review_qr_serializer = ReviewSerializer(Review.objects.all(), many=True)
             return Response(review_qr_serializer.data, status=status.HTTP_200_OK)
         else:
-            reviewId = kwargs.get('reviewId')
-            review_serializer = ReviewSerializer(Review.objects.get(reviewId=reviewId))
+            rid = kwargs.get('id')
+            review_serializer = ReviewSerializer(Review.objects.get(id=rid))
             return Response(review_serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, **kwargs):
-        if kwargs.get('id') is None:
-            return Response({'message':'수정할 서평이 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            data = request.data
-            rid = kwargs.get('id')
-            review = Review.objects.get(id=rid)
-            review.reviewTitle = data.get('rtitle')
-            review.reviewRate = 0,  # 추후에 평점 받아와서 저장
-            review.reviewTxt = data.get('text')
-            return Response({'message':'서평 수정이 완료되었습니다.'}, status=status.HTTP_200_OK)
+    def put(self, request):
+        data = request.data
+        rid = data.get('rid')
+        review = Review.objects.get(id=rid)
+        review.reviewTitle = data.get('rtitle')
+        review.reviewRate = data.get('rate')  # 추후에 평점 받아와서 저장
+        review.reviewTxt = data.get('rtext')
+        review.save()
+        return Response({'message':'서평 수정이 완료되었습니다.'}, status=status.HTTP_200_OK)
 
-    def delete(self, request, **kwargs):
-        if kwargs.get('id') is None:
-            return Response({'message':'삭제할 서평이 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            rid = kwargs.get('id')
-            review = Review.objects.get(id=rid)
-            review.delete()
-            return Response({'message':'서평 삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
+    def delete(self, request):
+        data = request.data
+        rid = data.get('rid')
+        review = Review.objects.get(id=rid)
+        review.delete()
+        return Response({'message':'서평 삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
 
 class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
