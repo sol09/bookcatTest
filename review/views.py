@@ -52,7 +52,7 @@ class ReviewView(APIView):
 
     def delete(self, request):
         data = request.data
-        rid = data.get('rid')
+        rid = data.get('reviewId')
         review = Review.objects.get(id=rid)
         review.delete()
         return Response({'message':'서평 삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
